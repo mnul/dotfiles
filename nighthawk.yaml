@@ -1,0 +1,114 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+transient_prompt:
+    template: '- '
+    foreground: '#d6deeb'
+    background: transparent
+upgrade:
+    source: cdn
+    interval: 168h
+    auto: true
+    notice: false
+console_title_template: '{{ .Folder }}'
+blocks:
+    - type: prompt
+      alignment: left
+      segments:
+        - properties:
+            windows: 
+          leading_diamond: ╭─
+          trailing_diamond: 
+          template: ' {{ if .WSL }}WSL at {{ end }}{{.Icon}}  '
+          foreground: '#011627'
+          background: 24
+          type: os
+          style: diamond
+        - template: '  '
+          foreground: '#ffeb95'
+          powerline_symbol: 
+          background: '#ef5350'
+          type: root
+          style: powerline
+        - properties:
+            folder_icon: ' '
+            folder_separator_icon: '<#011627></> '
+            home_icon: '  '
+            style: agnoster
+          template: '{{ path .Path .Location }}'
+          foreground: '#011627'
+          powerline_symbol: 
+          background: 52
+          type: path
+          style: powerline
+          leading_powerline_symbol: 
+        - properties:
+            branch_icon: ' '
+            fetch_status: true
+            fetch_upstream_icon: true
+            fetch_worktree_count: true
+            mapped_branches:
+                bug/*: "\U0001F41B "
+                feat/*: "\U0001F680 "
+          template: ' {{ .UpstreamIcon }} {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
+          foreground: '#011627'
+          powerline_symbol: 
+          background: '#addb67'
+          type: git
+          style: powerline
+          background_templates:
+            - '{{ if or (.Working.Changed) (.Staging.Changed) }}#e4cf6a{{ end }}'
+            - '{{ if and (gt .Ahead 0) (gt .Behind 0) }}#f78c6c{{ end }}'
+            - '{{ if gt .Ahead 0 }}#C792EA{{ end }}'
+            - '{{ if gt .Behind 0 }}#c792ea{{ end }}'
+    - type: prompt
+      alignment: right
+      overflow: break
+      segments:
+        - properties:
+            style: roundrock
+            threshold: 0
+          leading_diamond: 
+          trailing_diamond: 
+          template: ' {{ .FormattedMs }}'
+          foreground: '#d6deeb'
+          background: '#575656'
+          type: executiontime
+          style: diamond
+        - properties:
+            fetch_package_manager: true
+            npm_icon: '<#cc3a3a></> '
+            yarn_icon: '<#348cba></> '
+          leading_diamond: 
+          trailing_diamond: 
+          template: ' {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} '
+          foreground: '#3C873A'
+          background: '#303030'
+          type: node
+          style: diamond
+        - properties:
+            time_format: "15:04"
+          leading_diamond: 
+          trailing_diamond: 
+          template:  {{ .CurrentDate | date .Format }}
+          foreground: '#d6deeb'
+          background: '#234d70'
+          type: time
+          style: diamond
+    - type: prompt
+      alignment: left
+      segments:
+        - template: ╰─
+          foreground: '#21c7a8'
+          type: text
+          style: plain
+        - properties:
+            always_enabled: true
+          template: 
+          foreground: '#22da6e'
+          type: status
+          style: plain
+          foreground_templates:
+            - '{{ if gt .Code 0 }}#ef5350{{ end }}'
+      newline: true
+version: 3
+final_space: true
