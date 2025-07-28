@@ -32,7 +32,7 @@ zinit light-mode for \
 source ~/lscolors.sh
 
 # custom aliases
-alias ll='ls -la'
+alias ll='ls --color=auto -alF'
 alias c='clear'
 alias g='git'
 alias szsh='source ~/.zshrc'
