@@ -49,6 +49,10 @@ if [ "$TERM" != "dumb" ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+    alias dc='docker compose'
+    alias dcud='docker compose up -d'
+    alias dcu='docker compose up'
+    alias sau='sudo apt update && sudo apt dist-upgrade'
 
     # Set a terminal prompt style (default is fancy color prompt)
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;33m\]\u@\h \[\033[01;34m\]\w\[\033[00m\]\$ '
