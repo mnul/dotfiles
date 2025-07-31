@@ -1,6 +1,5 @@
 export PATH=$PATH:$HOME/.local/bin
 
-
 if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
   eval "$(oh-my-posh init zsh --config $HOME/dotfiles/nighthawk.yaml)"
 fi
@@ -36,6 +35,11 @@ alias ll='ls --color=auto -alF'
 alias c='clear'
 alias g='git'
 alias szsh='source ~/.zshrc'
+alias dc='docker compose'
+alias dcud='docker compose up -d'
+alias dcu='docker compose up'
+alias sau='sudo apt update && sudo apt dist-upgrade'
+
 
 # zsh plugins
 zinit light zsh-users/zsh-autosuggestions # zsh autosuggestions plugin
