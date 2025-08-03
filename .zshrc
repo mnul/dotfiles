@@ -65,8 +65,11 @@ alias c='clear'
 alias g='git'
 alias szsh='source ~/.zshrc'
 alias dc='docker compose'
+alias dps='docker ps -a'
 alias dcud='docker compose up -d'
 alias dcu='docker compose up'
+alias dip='docker image prune -a'
+alias dsp='docker system prune -a'
 alias sau='sudo apt update && sudo apt dist-upgrade'
 
 
@@ -77,7 +80,7 @@ zinit light zsh-users/zsh-completions  # additional completions for zsh
 zinit light zpm-zsh/theme-neutral # neutral theme for zsh
 
 # add zoxide
-eval "$(zoxide init zsh --cmd cd)"
+#eval "$(zoxide init zsh --cmd cd)"
 
 # add thefuck
 # Thefuck is a tool that corrects your previous console command.
