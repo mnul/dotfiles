@@ -81,3 +81,4 @@ run_scripts $HOME/.bashrc.d
 export PATH="$PATH:/home/manu/.local/bin"
 
 eval "$(thefuck --alias)"
+eval "$(zoxide init bash)"

@@ -28,7 +28,36 @@ zinit light-mode for \
 ### End of Zinit's installer chunk
 
 # dircolors
-source ~/lscolors.sh
+#source ~/lscolors.sh
+
+## History file configuration
+[ -z "$HISTFILE" ] && HISTFILE="$HOME/.zsh_history"
+# An SSD can handle a large history
+HISTSIZE=9999
+# shellcheck disable=SC2034
+SAVEHIST=9999
+## History command configuration
+setopt extended_history # record timestamp of command in HISTFILE
+# delete duplicates first when HISTFILE size exceeds HISTSIZE
+# setopt hist_expire_dups_first
+setopt hist_ignore_dups # Don't add duplicate entries
+setopt hist_ignore_space # ignore commands that start with space
+# show command with history expansion to user before running it
+setopt hist_verify
+setopt inc_append_history # add commands to HISTFILE in order of execution
+setopt share_history # share command history data
+setopt hist_find_no_dups # don't display duplicates in reverse search
+setopt hist_reduce_blanks # remove superfluous blanks
+unsetopt correct_all # Don't autocorrect when thefuck does it better.
+setopt extended_glob # Muh globbing
+setopt equals # use "=" to point to the path of an executable
+setopt prompt_subst # Expansion
+setopt interactivecomments # Comments in the interactive shell
+setopt auto_continue # Send CONT signal automatically when disowning jobs
+setopt auto_param_slash # implicit "cd" if the command is a path
+
+autoload -U colors && colors
+PS1="%{$fg[green]%}[%{$reset_color%} %{$fg[blue]%}%1~%{$reset_color%} %{$fg[green]%}]%{$reset_color%}$%b "
 
 # custom aliases
 alias ll='ls --color=auto -alF'
@@ -46,3 +75,12 @@ zinit light zsh-users/zsh-autosuggestions # zsh autosuggestions plugin
 zinit light zdharma-continuum/fast-syntax-highlighting  # fast syntax highlighting for zsh
 zinit light zsh-users/zsh-completions  # additional completions for zsh
 zinit light zpm-zsh/theme-neutral # neutral theme for zsh
+
+# add zoxide
+eval "$(zoxide init zsh --cmd cd)"
+
+# add thefuck
+# Thefuck is a tool that corrects your previous console command.
+# It suggests the correct command based on the previous command and allows you to execute it with a simple command.
+# It is a great tool for correcting typos and mistakes in your console commands.
+eval "$(thefuck --alias)"
