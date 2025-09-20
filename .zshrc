@@ -74,13 +74,14 @@ alias sau='sudo apt update && sudo apt dist-upgrade'
 
 
 # zsh plugins
-zinit light zsh-users/zsh-autosuggestions # zsh autosuggestions plugin
+#zinit light zsh-users/zsh-autosuggestions # zsh autosuggestions plugin
+zinit wait lucid atload'_zsh_autosuggest_start; unalias zi' light-mode for zsh-users/zsh-autosuggestions # Autosuggestions
 zinit light zdharma-continuum/fast-syntax-highlighting  # fast syntax highlighting for zsh
 zinit light zsh-users/zsh-completions  # additional completions for zsh
 zinit light zpm-zsh/theme-neutral # neutral theme for zsh
 
 # add zoxide
-#eval "$(zoxide init zsh --cmd cd)"
+eval "$(zoxide init zsh)" # --cmd cd # zoxide is a smarter cd command. It tracks your most used directories, and allows you to quickly navigate to them.
 
 # add thefuck
 # Thefuck is a tool that corrects your previous console command.
