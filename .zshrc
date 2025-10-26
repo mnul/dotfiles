@@ -1,4 +1,4 @@
-export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:$HOME/.local/bin:/usr/local/bin:$HOME/bin
 
 if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
   eval "$(oh-my-posh init zsh --config $HOME/dotfiles/nighthawk.yaml)"
@@ -87,4 +87,4 @@ eval "$(zoxide init zsh)" # --cmd cd # zoxide is a smarter cd command. It tracks
 # Thefuck is a tool that corrects your previous console command.
 # It suggests the correct command based on the previous command and allows you to execute it with a simple command.
 # It is a great tool for correcting typos and mistakes in your console commands.
-eval "$(thefuck --alias)"
+#eval "$(thefuck --alias)"
