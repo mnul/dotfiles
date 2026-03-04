@@ -71,6 +71,7 @@ alias dcu='docker compose up'
 alias dip='docker image prune -a'
 alias dsp='docker system prune -a'
 alias sau='sudo apt update && sudo apt dist-upgrade'
+#alias togemini='files-to-prompt . --ignore .git --ignore .terraform --ignore "*.retry" --ignore secrets.yaml > homelab-context.txt'
 
 
 # zsh plugins
@@ -88,3 +89,5 @@ eval "$(zoxide init zsh)" # --cmd cd # zoxide is a smarter cd command. It tracks
 # It suggests the correct command based on the previous command and allows you to execute it with a simple command.
 # It is a great tool for correcting typos and mistakes in your console commands.
 #eval "$(thefuck --alias)"
+
+[ -f "$HOME/dotfiles/togemini.sh" ] && source "$HOME/dotfiles/togemini.sh"

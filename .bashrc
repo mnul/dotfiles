@@ -82,3 +82,5 @@ export PATH="$PATH:/home/manu/.local/bin"
 
 eval "$(thefuck --alias)"
 eval "$(zoxide init bash)"
+
+[ -f "$HOME/dotfiles/togemini.sh" ] && source "$HOME/dotfiles/togemini.sh"
