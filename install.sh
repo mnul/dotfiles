@@ -28,61 +28,63 @@ fi
 
 for source_name in "${!DOTFILES[@]}"; do
   source_file="$REPO_DIR/$source_name"
-target_file="${DOTFILES[$source_name]}"if [ ! -f "$source_file" ]; then
+  target_file="${DOTFILES[$source_name]}"
+  
+  if [ ! -f "$source_file" ]; then
     echo "Warning: Source file $source_file does not exist. Skipping." >&2
     continue
-fi
+  fi
 
-if [ "$FORCE_COPY" -eq 1 ]; then
+  if [ "$FORCE_COPY" -eq 1 ]; then
     if [ -h "$target_file" ]; then
-        echo "Removing existing symlink at root target: $target_file"
-        rm "$target_file"
+      echo "Removing existing symlink at root target: $target_file"
+      rm "$target_file"
     fi
 
     if [ -f "$target_file" ]; then
-        if cmp -s "$source_file" "$target_file"; then
-            echo "Ok: $target_file is already up to date (identical content)."
-            continue
-        fi
-        backup_file="${target_file}.dtbak"
-        if [ -e "$backup_file" ]; then
-            echo "Warning: Backup $backup_file already exists. Overwriting current file without updating backup."
-            rm -f "$target_file"
-        else
-            echo "Backing up real file: $target_file -> $backup_file"
-            mv "$target_file" "$backup_file"
-        fi
+      if cmp -s "$source_file" "$target_file"; then
+        echo "Ok: $target_file is already up to date (identical content)."
+        continue
+      fi
+      backup_file="${target_file}.dtbak"
+      if [ -e "$backup_file" ]; then
+        echo "Warning: Backup $backup_file already exists. Overwriting current file without updating backup."
+        rm -f "$target_file"
+      else
+        echo "Backing up real file: $target_file -> $backup_file"
+        mv "$target_file" "$backup_file"
+      fi
     fi
 
     echo "Copying config: $source_file -> $target_file"
     cp "$source_file" "$target_file"
     chmod 600 "$target_file"
-else
+  else
     if [ -h "$target_file" ]; then
-        current_link=$(readlink "$target_file")
-        if [ "$current_link" = "$source_file" ]; then
-            echo "Ok: $target_file is already correctly symlinked."
-            continue
-        fi
-        echo "Removing outdated symlink: $target_file"
-        rm "$target_file"
+      current_link=$(readlink "$target_file")
+      if [ "$current_link" = "$source_file" ]; then
+        echo "Ok: $target_file is already correctly symlinked."
+        continue
+      fi
+      echo "Removing outdated symlink: $target_file"
+      rm "$target_file"
     fi
 
     if [ -e "$target_file" ] && [ ! -h "$target_file" ]; then
-        backup_file="${target_file}.dtbak"
-        if [ -e "$backup_file" ]; then
-            echo "Warning: Backup $backup_file already exists. Overwriting current file without updating backup."
-            rm -f "$target_file"
-        else
-            echo "Backing up real file: $target_file -> $backup_file"
-            mv "$target_file" "$backup_file"
-        fi
+      backup_file="${target_file}.dtbak"
+      if [ -e "$backup_file" ]; then
+        echo "Warning: Backup $backup_file already exists. Overwriting current file without updating backup."
+        rm -f "$target_file"
+      else
+        echo "Backing up real file: $target_file -> $backup_file"
+        mv "$target_file" "$backup_file"
+      fi
     fi
 
     mkdir -p "$(dirname "$target_file")"
     echo "Creating symlink: $target_file -> $source_file"
     ln -s "$source_file" "$target_file"
-fi
+  fi
 done
 
 echo "==> Deployment process completed successfully."
