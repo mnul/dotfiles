@@ -1,44 +1,78 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
 version: 3
 final_space: true
+
+# ==========================================
+# CENTRALIZED THEME COLOR PALETTE
+# ==========================================
+palette:
+  os_bg: '#1e314a'
+  os_fg: '#7fdbca'
+  root_bg: '#ef5350'
+  root_fg: '#ffeb95'
+  path_bg: '#234d70'
+  path_fg: '#ffffff'
+  git_bg: '#addb67'
+  git_fg: '#011627'
+  git_changed_bg: '#e4cf6a'
+  git_diverged_bg: '#f78c6c'
+  git_ahead_behind_bg: '#C792EA'
+  meta_bg: '#575656'
+  meta_fg: '#d6deeb'
+  node_bg: '#303030'
+  node_fg: '#3C873A'
+  time_bg: '#234d70'
+  time_fg: '#d6deeb'
+  status_ok: '#22da6e'
+  status_err: '#ef5350'
+  bracket_color: '#21c7a8'
+
 transient_prompt:
   template: ' '
-  foreground: '#22da6e'
+  foreground: p:status_ok
   background: transparent
+
 upgrade:
   source: cdn
   interval: 168h
   auto: true
   notice: false
+
 console_title_template: '{{ .Folder }}'
+
 blocks:
   - type: prompt
     alignment: left
     segments:
+      - type: text
+        style: plain
+        foreground: p:bracket_color
+        template: '╭─'
+
       - type: os
         style: diamond
-        leading_diamond: ╭─
+        leading_diamond: 
         trailing_diamond: 
-        foreground: '#011627'
-        background: '#242424'
-        template: ' {{ if .Env.WSL_DISTRO_NAME }}WSL: {{ end }}{{ .Icon }} '
-        properties:
+        foreground: p:os_fg
+        background: p:os_bg
+        template: ' {{ if .Env.WSL_DISTRO_NAME }}WSL: {{ end }}{{ if eq .Icon "" }}󰣇 {{ else }}{{ .Icon }}{{ end }} '
+        options:
           windows: 
 
       - type: root
         style: powerline
         powerline_symbol: 
-        foreground: '#ffeb95'
-        background: '#ef5350'
+        foreground: p:root_fg
+        background: p:root_bg
         template: '  '
 
       - type: path
         style: powerline
         powerline_symbol: 
-        foreground: '#011627'
-        background: '#525252'
+        foreground: p:path_fg
+        background: p:path_bg
         template: ' {{ .Path }} '
-        properties:
+        options:
           folder_icon: ' '
           folder_separator_icon: '  '
           home_icon: '  '
@@ -47,19 +81,18 @@ blocks:
       - type: git
         style: powerline
         powerline_symbol: 
-        foreground: '#011627'
-        background: '#addb67'
+        foreground: p:git_fg
+        background: p:git_bg
         template: ' {{ .UpstreamIcon }}{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
-        properties:
+        options:
           branch_icon: ' '
           fetch_status: true
           fetch_upstream_icon: true
-          fetch_worktree_count: true
         background_templates:
-          - '{{ if or (.Working.Changed) (.Staging.Changed) }}#e4cf6a{{ end }}'
-          - '{{ if and (gt .Ahead 0) (gt .Behind 0) }}#f78c6c{{ end }}'
-          - '{{ if gt .Ahead 0 }}#C792EA{{ end }}'
-          - '{{ if gt .Behind 0 }}#c792ea{{ end }}'
+          - '{{ if or (.Working.Changed) (.Staging.Changed) }}{{ .Palette.git_changed_bg }}{{ end }}'
+          - '{{ if and (gt .Ahead 0) (gt .Behind 0) }}{{ .Palette.git_diverged_bg }}{{ end }}'
+          - '{{ if gt .Ahead 0 }}{{ .Palette.git_ahead_behind_bg }}{{ end }}'
+          - '{{ if gt .Behind 0 }}{{ .Palette.git_ahead_behind_bg }}{{ end }}'
 
   - type: prompt
     alignment: right
@@ -68,29 +101,29 @@ blocks:
       - type: executiontime
         style: diamond
         leading_diamond: 
-        trailing_diamond: 
-        foreground: '#d6deeb'
-        background: '#575656'
+        trailing_diamond: ""
+        foreground: p:meta_fg
+        background: p:meta_bg
         template: ' {{ .FormattedMs }} '
-        properties:
+        options:
           threshold: 0
 
       - type: node
         style: diamond
         leading_diamond: 
-        trailing_diamond: 
-        foreground: '#3C873A'
-        background: '#303030'
+        trailing_diamond: ""
+        foreground: p:node_fg
+        background: p:node_bg
         template: '  {{ .Full }} '
 
       - type: time
         style: diamond
         leading_diamond: 
         trailing_diamond: 
-        foreground: '#d6deeb'
-        background: '#234d70'
+        foreground: p:time_fg
+        background: p:time_bg
         template: '  {{ .CurrentDate | date .Format }} '
-        properties:
+        options:
           time_format: '15:04'
 
   - type: prompt
@@ -99,14 +132,14 @@ blocks:
     segments:
       - type: text
         style: plain
-        foreground: '#21c7a8'
+        foreground: p:bracket_color
         template: '╰─'
 
       - type: status
         style: plain
-        foreground: '#22da6e'
+        foreground: p:status_ok
         foreground_templates:
-          - '{{ if gt .Code 0 }}#ef5350{{ end }}'
+          - '{{ if gt .Code 0 }}{{ .Palette.status_err }}{{ end }}'
         template: ''
-        properties:
+        options:
           always_enabled: true
