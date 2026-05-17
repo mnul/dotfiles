@@ -1,14 +1,24 @@
 #!/bin/bash
 
-# Loop through all the dotfiles, if the file is a symlink then remove it
-# Then if the backup file exists, restore it to it's original location
-for file in $(find . -maxdepth 1 -name ".*" -type f  -printf "%f\n" ); do
-    if [ -h ~/$file ]; then
-        rm -f ~/$file
+set -euo pipefail
+
+declare -A DOTFILES=(
+    [".bashrc"]="$HOME/.bashrc"
+    [".zshrc"]="$HOME/.zshrc"
+    [".profile"]="$HOME/.profile"
+    [".zprofile"]="$HOME/.zprofile"
+    [".tmux.conf"]="$HOME/.tmux.conf"
+)
+
+for source_name in "${!DOTFILES[@]}"; do
+    target_file="${DOTFILES[$source_name]}"
+    backup_file="${target_file}.dtbak"
+
+    if [ -h "$target_file" ] || [ -f "$target_file" ]; then
+        rm -f "$target_file"
     fi
-    if [ -e ~/${file}.dtbak ]; then
-        mv -f ~/$file{.dtbak,}
+
+    if [ -f "$backup_file" ]; then
+        mv "$backup_file" "$target_file"
     fi
 done
-
-echo "Uninstalled"
