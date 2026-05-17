@@ -10,12 +10,11 @@ togemini() {
     local output_file="context.llm.txt"
     
     # Optional: If you provide an argument, use it as the base name
-    if [ -n "$1" ]; then
+    if [ -n "${1:-}" ]; then
         output_file="${1}.llm.txt"
     fi
 
     echo "Generating context file: $output_file"
-    
     # Clear the file and add absolute path for reference
     {
         echo "Project Context"
@@ -26,11 +25,16 @@ togemini() {
 
     # Find ALL files up to depth 8, excluding binaries and metadata
     find . -maxdepth 8 -type f \
+        # Skip files larger than 500KB (likely data/logs)
+        -size -500k \
         -not -path '*/.git/*' \
         -not -path '*/.terraform/*' \
         -not -path '*/bin/*' \
         -not -path '*/obj/*' \
+        -not -path '*/node_modules/*' \
+        -not -path '*/__pycache__/*' \
         -not -name '*.llm.txt' \
+        -not -name '*.dtbak' \
         -not -name '*terraform.tfstate*' \
         -not -name '*.png' \
         -not -name '*.jpg' \
@@ -44,13 +48,9 @@ togemini() {
         -not -name '*.zst' \
         -not -name '*.pyc' \
         -print0 | while IFS= read -r -d '' file; do
-            # Skip files larger than 500KB (likely data/logs)
-            if [[ $(find "$file" -size +500k) ]]; then continue; fi
-
-            echo "$file" >> "$output_file"
-            echo "---" >> "$output_file"
+            printf '%s\n---\n' "$file" >> "$output_file"
             cat "$file" >> "$output_file"
-            echo -e "\n---\n" >> "$output_file"
+            printf '\n---\n\n' >> "$output_file"
         done
 
     echo "Done! Upload $output_file to Gemini."
