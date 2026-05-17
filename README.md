@@ -60,3 +60,10 @@ To prevent configuration drift across homelab nodes, embed this block into the l
 - `.tmux.conf` - Multiplexer configuration profile.
 
 - `togemini.sh` - Text-context compilation tool optimized for LLM debugging.
+
+## License
+
+This repository is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for the full legal text.
+
+### Disclaimer
+The configuration files, scripts, and automation assets contained in this repository are provided "as is" without warranty of any kind, express or implied. Use at your own risk. The author assumes no liability for broken infrastructure, data loss, or system instability resulting from the execution of these files.
