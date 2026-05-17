@@ -8,6 +8,7 @@ declare -A DOTFILES=(
     [".profile"]="$HOME/.profile"
     [".zprofile"]="$HOME/.zprofile"
     [".tmux.conf"]="$HOME/.tmux.conf"
+    [".shell_aliases"]="$HOME/.shell_aliases"
 )
 
 for source_name in "${!DOTFILES[@]}"; do

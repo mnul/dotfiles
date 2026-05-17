@@ -1,0 +1,20 @@
+alias c='clear'
+alias g='git'
+alias ll='ls --color=auto -alF'
+alias la='ls --color=auto -A'
+alias l='ls --color=auto -CF'
+
+if command -v yay &>/dev/null; then
+    alias sau='yay -Syu'
+elif command -v pacman &>/dev/null; then
+    alias sau='sudo pacman -Syu'
+elif command -v apt &>/dev/null; then
+    alias sau='sudo apt update && sudo apt dist-upgrade'
+fi
+
+alias dc='docker compose'
+alias dps='docker ps -a'
+alias dcud='docker compose up -d'
+alias dcu='docker compose up'
+alias dip='docker image prune -a'
+alias dsp='docker system prune -a'

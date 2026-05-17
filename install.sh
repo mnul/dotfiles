@@ -7,6 +7,7 @@ declare -A DOTFILES=(
   [".profile"]="$HOME/.profile"
   [".zprofile"]="$HOME/.zprofile"
   [".tmux.conf"]="$HOME/.tmux.conf"
+  [".shell_aliases"]="$HOME/.shell_aliases"
 )
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

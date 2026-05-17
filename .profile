@@ -1,27 +1,28 @@
-# This script should go in ~/.profile (for bash) or ~/.zprofile (for zsh)
+#!/bin/bash
+# .profile - Single Source of Truth for SSH Agent
 
-# Find a running ssh-agent, or start one
 SSH_ENV="$HOME/.ssh/agent-environment"
 
-function start_agent {
-    echo "Initialising new SSH agent..."
-    # spawn ssh-agent
+start_agent() {
+    mkdir -p "$(dirname "$SSH_ENV")"
     ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-    echo succeeded
     chmod 600 "${SSH_ENV}"
     . "${SSH_ENV}" > /dev/null
     
-    # Add all your keys here, one by one
-    ssh-add ~/.ssh/manu-homelab
-
+    if [ "$(id -u)" -eq 0 ]; then
+        if [ -f "/home/manu/.ssh/manu-homelab" ]; then
+            ssh-add /home/manu/.ssh/manu-homelab
+        elif [ -f "$HOME/.ssh/manu-homelab" ]; then
+            ssh-add "$HOME/.ssh/manu-homelab"
+        fi
+    else
+        [ -f "$HOME/.ssh/manu-homelab" ] && ssh-add "$HOME/.ssh/manu-homelab"
+    fi
 }
 
-# Source SSH settings, if applicable
 if [ -f "${SSH_ENV}" ]; then
     . "${SSH_ENV}" > /dev/null
-    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent > /dev/null || {
-        start_agent;
-    }
+    ps -ef | grep "${SSH_AGENT_PID}" | grep ssh-agent > /dev/null || start_agent
 else
-    start_agent;
+    start_agent
 fi
