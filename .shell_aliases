@@ -31,3 +31,5 @@ alias dcud='docker compose up -d'
 alias dcu='docker compose up'
 alias dip='docker image prune -a'
 alias dsp='docker system prune -a'
+
+alias ip='ip -color=auto'
