@@ -1,9 +1,21 @@
 alias c='clear'
 alias g='git'
-alias ll='ls --color=auto -alF'
-alias la='ls --color=auto -A'
-alias l='ls --color=auto -CF'
 
+# Smart Directory Listing Engine (eza vs standard ls fallback)
+if command -v eza &>/dev/null; then
+    alias ls='eza --color=auto --group-directories-first --icons --git'
+    alias ll='eza -la --color=auto --group-directories-first --icons --git'
+    alias la='eza -a --color=auto --group-directories-first --icons --git'
+    alias l='eza -F --color=auto --group-directories-first --icons --git'
+    alias tree='eza --tree --color=auto --icons --git'
+else
+    alias ls='ls --color=auto'
+    alias ll='ls --color=auto -alF'
+    alias la='ls --color=auto -A'
+    alias l='ls --color=auto -CF'
+fi
+
+# Dynamic Package Management
 if command -v yay &>/dev/null; then
     alias sau='yay -Syu'
 elif command -v pacman &>/dev/null; then
@@ -12,6 +24,7 @@ elif command -v apt &>/dev/null; then
     alias sau='sudo apt update && sudo apt dist-upgrade'
 fi
 
+# Docker Orchestration
 alias dc='docker compose'
 alias dps='docker ps -a'
 alias dcud='docker compose up -d'
