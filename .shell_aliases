@@ -24,7 +24,11 @@ elif command -v apt &>/dev/null; then
     alias sau='sudo apt update && sudo apt dist-upgrade'
 fi
 
-if command -v bat &>/dev/null; then
+# Smart 'bat' Engine (Handles Ubuntu/Debian 'batcat' naming conflict)
+if command -v batcat &>/dev/null; then
+    alias bat='batcat'
+    alias cat='batcat --style=plain'
+elif command -v bat &>/dev/null; then
     alias cat='bat --style=plain'
 fi
 
