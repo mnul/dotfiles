@@ -1,13 +1,10 @@
 # ~/.zshrc
 
-# Idempotent Path Resolution
-if [[ -d "$HOME/.local/bin" ]]; then
-    case ":$PATH:" in
-        *":$HOME/.local/bin:"*) ;;
-        *) export PATH="$PATH:$HOME/.local/bin" ;;
-    esac
-fi
-[[ -d "$HOME/bin" ]] && export PATH="$PATH:$HOME/bin"
+# Idempotent Path Resolution (Forces inclusion even if created mid-session)
+typeset -U path
+path+=("$HOME/.local/bin")
+path+=("$HOME/bin")
+export PATH
 
 # Initialize Oh-My-Posh (Unified Workstation/Root Prompt)
 if [ "$TERM" != "dumb" ] && command -v oh-my-posh &>/dev/null && [ -f "$HOME/dotfiles/nighthawk.yaml" ]; then
