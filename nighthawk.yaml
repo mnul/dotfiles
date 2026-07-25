@@ -98,13 +98,21 @@ blocks:
     alignment: right
     overflow: break
     segments:
-      - type: executiontime
+      - type: session
         style: diamond
-        leading_diamond: 
+        leading_diamond: 
         trailing_diamond: ""
         foreground: p:meta_fg
         background: p:meta_bg
-        template: ' {{ .FormattedMs }} '
+        template: ' 󰟆 {{ .UserName }}@{{ .HostName }} '
+
+      - type: executiontime
+        style: diamond
+        leading_diamond: 
+        trailing_diamond: ""
+        foreground: p:meta_fg
+        background: p:meta_bg
+        template: '  {{ .FormattedMs }} '
         options:
           threshold: 0
 
